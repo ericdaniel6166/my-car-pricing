@@ -1,16 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  NotFoundException,
-  Param,
-  Patch,
-  Post,
-  Query,
-  Session,
-  UseInterceptors
-} from '@nestjs/common';
+import {Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query, Session} from '@nestjs/common';
 import {CreateUserDto} from './dtos/create-user.dto';
 import {UsersService} from './users.service';
 import {UpdateUserDto} from "./dtos/update-user.dto";
@@ -19,11 +7,9 @@ import {UserDto} from "./dtos/user.dto";
 import {AuthService} from "./auth.service";
 import {CurrentUser} from "./decorators/current-user.decorator";
 import {User} from "./user.entity";
-import {CurrentUserInterceptor} from "./interceptors/current-user.interceptor";
 
 @Controller('auth')
 @Serialize(UserDto)
-@UseInterceptors(CurrentUserInterceptor)
 export class UsersController {
   constructor(
       private usersService: UsersService,
@@ -51,6 +37,9 @@ export class UsersController {
 
   @Get('/whoami')
   async whoAmI(@CurrentUser() user: User){
+    if (!user){
+      throw new NotFoundException('User not found');
+    }
     return user;
   }
 
