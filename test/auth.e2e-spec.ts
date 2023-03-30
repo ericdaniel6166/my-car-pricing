@@ -4,12 +4,11 @@ import * as request from 'supertest';
 import {AppModule} from './../src/app.module';
 import {CreateUserDto} from "../src/users/dtos/create-user.dto";
 import {UserDto} from "../src/users/dtos/user.dto";
-import {setupApp} from "../src/setup-app";
 
 describe('Authentication System', () => {
     let app: INestApplication;
     const password = 'P@ssw0rd';
-    const email = 'abc1@email.com';
+    const email = 'abc2@email.com';
     const createUserDto: CreateUserDto = {email, password} as CreateUserDto;
 
     beforeEach(async () => {
@@ -18,7 +17,6 @@ describe('Authentication System', () => {
         }).compile();
 
         app = moduleFixture.createNestApplication();
-        setupApp(app);
         await app.init();
     });
 
