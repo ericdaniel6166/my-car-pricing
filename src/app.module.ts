@@ -8,7 +8,7 @@ import {User} from './users/user.entity';
 import {Report} from './reports/report.entity';
 import {APP_PIPE} from "@nestjs/core";
 import {ConfigModule, ConfigService} from "@nestjs/config";
-import {type} from "os";
+import {SnakeNamingStrategy} from 'typeorm-naming-strategies';
 
 const cookieSession = require('cookie-session');
 
@@ -25,7 +25,9 @@ const cookieSession = require('cookie-session');
                     type: 'sqlite',
                     database: config.get<string>('DB_NAME'),
                     synchronize: true,
-                    entities: [User, Report]
+                    autoLoadEntities: true,
+                    namingStrategy: new SnakeNamingStrategy(),
+                    entities: [__dirname + '/**/*.entity{.ts,.js}']
                 }
             },
         }),
